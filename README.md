@@ -12,7 +12,7 @@ Perfect for streamers who want automatic **“🔴 I’m live!”** messages wit
 - 🚫 No spam (only one notification per stream session)
 - ⚙️ Fully configurable via environment variables
 - 🆓 Can be hosted for free (Render, Railway, etc.)
-- 🧩 Easy to extend and customize
+- 🧩 Development / Production mode support
 
 ---
 
@@ -69,6 +69,10 @@ TWITCH_LOGIN=your_twitch_username
 
 # How often (in seconds) the bot checks if the stream is live
 CHECK_SECONDS=90
+
+# Optional: send a test message when the bot starts (useful for development)
+SEND_STARTUP_MESSAGE=true
+STARTUP_MESSAGE=✅ Bot connected and ready. (Test message)
 ```
 
 ⚠️ **Never commit your `.env` file.**
@@ -116,6 +120,28 @@ https://twitch.tv/makttub_dota
 ```env
 TWITCH_LOGIN=makttub_dota
 ```
+
+---
+
+## 🧪 Development vs Production mode
+
+This bot supports an optional startup test message to help during setup.
+
+### Development
+Enable the startup message to confirm the bot is connected and has access to the channel:
+
+```env
+SEND_STARTUP_MESSAGE=true
+```
+
+### Production
+Disable the startup message once everything is working:
+
+```env
+SEND_STARTUP_MESSAGE=false
+```
+
+This prevents unnecessary messages when the bot restarts.
 
 ---
 
