@@ -176,6 +176,25 @@ Ignored (generated files):
 
 ------------------------------------------------------------------------
 
+## 🖼️ Custom Executable Icon
+
+-   🎨 Supports custom `.ico` file for Windows executable\
+-   📁 Place your icon inside `assets/icon.ico`\
+-   ⚙️ Uses `pkg --icon` flag during build\
+-   🪟 Replaces default Node.js icon in `dist/bot.exe`
+
+To include your icon, update the build script:
+
+    pkg build/bundle.js --targets node18-win-x64 --icon assets/icon.ico --output dist/bot.exe
+
+After running:
+
+    npm run build
+
+The generated executable will include your custom icon.
+
+------------------------------------------------------------------------
+
 ## ☁️ Hosting
 
 Can be deployed to:
