@@ -1,63 +1,96 @@
 # 🎮 Twitch Notifications Bot for Discord
 
-A simple **Node.js Discord bot** that sends a notification to a Discord channel when a Twitch stream goes live.
+![Node.js](https://img.shields.io/badge/Node.js-18+-339933?logo=node.js&logoColor=white)
+![ES Modules](https://img.shields.io/badge/Modules-ESM-1f6feb)
+![Discord.js](https://img.shields.io/badge/Discord.js-v14-5865F2?logo=discord&logoColor=white)
+![Twitch
+API](https://img.shields.io/badge/Twitch-Helix-9146FF?logo=twitch&logoColor=white)
+![Bundled with
+esbuild](https://img.shields.io/badge/Bundled-esbuild-FFCF00) ![Packaged
+with pkg](https://img.shields.io/badge/Packaged-pkg-F05032)
+![License](https://img.shields.io/badge/License-MIT-green)
 
-Perfect for streamers who want automatic **“🔴 I’m live!”** messages without relying on third-party bots.
+------------------------------------------------------------------------
 
----
+A modern **Node.js (ES Modules) Discord bot** that automatically
+notifies a Discord channel when a Twitch stream goes live.
+
+This project demonstrates:
+
+-   Twitch Helix API integration\
+-   Discord Bot API usage\
+-   Environment-based configuration\
+-   Polling logic with anti-spam protection\
+-   Backend bundling using **esbuild**\
+-   Packaging into a standalone Windows executable using **pkg**
+
+------------------------------------------------------------------------
 
 ## ✨ Features
 
-- 🔴 Notifies when a Twitch channel goes live
-- 🚫 No spam (only one notification per stream session)
-- ⚙️ Fully configurable via environment variables
-- 🆓 Can be hosted for free (Render, Railway, etc.)
-- 🧩 Development / Production mode support
+-   🔴 Sends a notification when a Twitch channel goes live\
+-   🚫 Prevents duplicate notifications per stream session\
+-   ⚙️ Fully configurable via environment variables\
+-   🧩 Development / Production modes\
+-   📦 Can be bundled into a standalone `.exe`
 
----
+------------------------------------------------------------------------
 
-## 📸 Example notification
+## 🏗️ Technical Architecture
 
-```
-🔴 makttub_dota is live!
-🎮 Dota 2
-📝 Ranked grind with chat
-👉 https://twitch.tv/makttub_dota
-```
+This project uses:
 
----
+-   **Node.js 18+**
+-   **ES Modules (ESM)** (`"type": "module"`)
+-   Native `fetch`
+-   **esbuild** for bundling
+-   **pkg** for runtime packaging
+
+### Build Flow
+
+    index.js (ESM source)
+          ↓
+    esbuild bundle
+          ↓
+    Single CommonJS file
+          ↓
+    pkg packaging
+          ↓
+    Standalone Windows executable
+
+### Why bundling is required
+
+Since the project is written using modern **ES Modules**, it is first
+bundled with `esbuild` into a CommonJS single-file output.
+
+This ensures compatibility with `pkg`, which packages:
+
+-   The Node runtime\
+-   The bundled application
+
+into a single `.exe` file.
+
+------------------------------------------------------------------------
 
 ## 🧰 Requirements
 
-To use this bot you will need:
+-   Node.js 18+
+-   A Discord server with admin permissions
+-   A Discord Bot Token
+-   A Twitch account
+-   Twitch Client ID & Client Secret
 
-- **Node.js 18+**
-- A **Discord server** where you have admin permissions
-- A **Discord bot token**
-- A **Twitch account**
-- A **Twitch Client ID & Client Secret**
+------------------------------------------------------------------------
 
----
+## ⚙️ Environment Variables
 
-## ⚙️ Environment variables
+Create a `.env` file based on:
 
-This project uses environment variables for configuration.
+    .env.example
 
-An example file is provided:
+Example:
 
-```
-.env.example
-```
-
-Create your own `.env` file by copying it:
-
-```bash
-cp .env.example .env
-```
-
-### 📄 `.env.example`
-
-```env
+``` env
 # Discord configuration
 DISCORD_TOKEN=your_discord_bot_token
 DISCORD_CHANNEL_ID=your_discord_channel_id
@@ -67,139 +100,113 @@ TWITCH_CLIENT_ID=your_twitch_client_id
 TWITCH_CLIENT_SECRET=your_twitch_client_secret
 TWITCH_LOGIN=your_twitch_username
 
-# How often (in seconds) the bot checks if the stream is live
+# Poll interval (seconds)
 CHECK_SECONDS=90
 
-# Optional: send a test message when the bot starts (useful for development)
+# Optional startup test message
 SEND_STARTUP_MESSAGE=true
-STARTUP_MESSAGE=✅ Bot connected and ready. (Test message)
+STARTUP_MESSAGE=✅ Bot connected and ready.
 ```
 
-⚠️ **Never commit your `.env` file.**
+⚠️ Never commit your `.env` file.
 
----
+------------------------------------------------------------------------
 
-## 🔍 Where to get each value
-
-### 🟣 DISCORD_TOKEN
-1. Go to https://discord.com/developers/applications
-2. Create a new application
-3. Go to **Bot → Add Bot**
-4. Copy the **Bot Token**
-
----
-
-### 🟣 DISCORD_CHANNEL_ID
-1. Open Discord → **User Settings → Advanced**
-2. Enable **Developer Mode**
-3. Right click the target channel → **Copy ID**
-
----
-
-### 🟣 TWITCH_CLIENT_ID & TWITCH_CLIENT_SECRET
-1. Go to https://dev.twitch.tv/console/apps
-2. Register a new application
-3. Set:
-   - **Redirect URL**: `http://localhost`
-   - **Category**: Application Integration
-   - **Type**: Confidential
-4. Copy:
-   - Client ID
-   - Client Secret
-
----
-
-### 🟣 TWITCH_LOGIN
-Your Twitch username (lowercase).
-
-Example:
-```
-https://twitch.tv/makttub_dota
-```
-
-```env
-TWITCH_LOGIN=makttub_dota
-```
-
----
-
-## 🧪 Development vs Production mode
-
-This bot supports an optional startup test message to help during setup.
-
-### Development
-Enable the startup message to confirm the bot is connected and has access to the channel:
-
-```env
-SEND_STARTUP_MESSAGE=true
-```
-
-### Production
-Disable the startup message once everything is working:
-
-```env
-SEND_STARTUP_MESSAGE=false
-```
-
-This prevents unnecessary messages when the bot restarts.
-
----
-
-## ▶️ Running the bot locally
+## ▶️ Run Locally (Development)
 
 Install dependencies:
 
-```bash
+``` bash
 npm install
 ```
 
 Start the bot:
 
-```bash
+``` bash
 npm start
 ```
 
-If everything is correct, you should see:
+------------------------------------------------------------------------
 
+## 📦 Build Standalone Executable (Windows)
+
+Install dependencies:
+
+``` bash
+npm install
 ```
-Connected as Twitch Live Notifier#1234
+
+Generate executable:
+
+``` bash
+npm run build
 ```
 
----
+Output:
 
-## ☁️ Hosting (Render example)
+    dist/bot.exe
 
-This bot can be hosted for free using **Render**.
+Before running the executable:
 
-### Steps:
-1. Push this repository to GitHub
-2. Go to https://render.com
-3. Create a **Background Worker**
-4. Connect your GitHub repository
-5. Set:
-   - **Build Command**: `npm install`
-   - **Start Command**: `npm start`
-6. Add the same environment variables from `.env` in Render’s dashboard
+Copy your `.env` file next to:
 
-⚠️ Note: On Render free tier, the service may sleep when inactive.
+    dist/bot.exe
 
----
+Then double-click `bot.exe`.
 
-## 🔒 Security notes
+------------------------------------------------------------------------
 
-- Never share your Discord or Twitch tokens
-- Never commit your `.env` file
-- If a secret is leaked, regenerate it immediately
+## 📂 Repository Structure
 
----
+    notificationsBotDiscord/
+    │
+    ├── index.js
+    ├── package.json
+    ├── package-lock.json
+    ├── .env.example
+    ├── README.md
+    ├── .gitignore
+
+Ignored (generated files):
+
+    node_modules/
+    build/
+    dist/
+    .env
+
+------------------------------------------------------------------------
+
+## ☁️ Hosting
+
+Can be deployed to:
+
+-   Render
+-   Railway
+-   Any Node-compatible environment
+
+Use:
+
+Build command: npm install\
+Start command: npm start
+
+------------------------------------------------------------------------
+
+## 🔒 Security Notes
+
+-   Never share your Discord or Twitch tokens\
+-   Never commit your `.env` file\
+-   Regenerate leaked secrets immediately
+
+------------------------------------------------------------------------
 
 ## 📄 License
 
 MIT License
 
----
+------------------------------------------------------------------------
 
 ## 💜 Author
 
-Created by **Ariadna Villagra**  
-Contributions, issues and pull requests are welcome!
+Created by **Ariadna Villagra**
+
+Contributions, issues and pull requests are welcome.
